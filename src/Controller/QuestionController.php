@@ -38,7 +38,7 @@ class QuestionController extends AbstractController
 
             $entityManager->persist($question);
             $entityManager->flush();
-            return $this->redirectToRoute('question');
+            return $this->redirectToRoute('questions');
         }
         return $this->render('question/add.html.twig', [
             'questionForm' => $form->createView(),

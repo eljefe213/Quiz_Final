@@ -2,30 +2,32 @@
 
 namespace App\Form;
 
-use App\Entity\Question;
+use App\Entity\Answer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class QuestionFormType extends AbstractType
+class AnswerFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Question',TextType::class)
-            ->add('Answer_Id',AnswerFormType::class, [
-                "mapped" => true
-            ])
-            ->add('Ajouter', SubmitType::class)
+            ->add('answer',TextType::class)
+            ->add('is_true', CheckboxType::class, [
+                'label' => 'Is True?',
+                'required' => true,
+                'value' => 'TRUE',
+                'empty_data' => 'FALSE',
+            ]);
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Question::class,
+            'data_class' => Answer::class,
         ]);
     }
 }
