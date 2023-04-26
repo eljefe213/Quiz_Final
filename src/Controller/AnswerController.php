@@ -101,7 +101,7 @@ class AnswerController extends AbstractController
     {
         $answer = $answerRepository->find($id);
         //dd($answers);
-        return $this->render('answer/answer.html.twig', [
+        return $this->render('answer/index.html.twig', [
             'answer' => $answer,
         ]);
     }

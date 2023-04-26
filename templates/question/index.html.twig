@@ -24,12 +24,18 @@
 				</p>
 				<p>{{question.question}}</p>
 				<p>
+					<a href="{{path('delete_question',{'id':question.id})}}">Delete</a>
+				</p>
+				<p>
+					<a href="{{path('edit_question',{'id':question.id})}}">Edit</a>
+				</p>
+				<p>
 					<a href="{{path('create_answer',{'id':question.id})}}">Ajouter la bonne réponse</a>
 				</p>
-                <p>
+				<p>
 					<a href="{{path('create_false_answer',{'id':question.id})}}">Ajouter une mauvaise réponse</a>
 				</p>
-                {% include 'answer/index.html.twig' with {'question.id':question } %}
+				{% include 'answer/index.html.twig' with {'question.id':question } %}
 			</div>
 		{% endfor %}
 	</div>

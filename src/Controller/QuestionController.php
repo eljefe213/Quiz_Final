@@ -43,7 +43,42 @@ class QuestionController extends AbstractController
         return $this->render('question/add.html.twig', [
             'questionForm' => $form->createView(),
         ]);
+    }
 
+    #[Route('/question/edit/{id}', name: 'edit_question',  methods: ['GET','POST'])]
+    public function edit_question (Request $request, QuestionRepository $questionRepository, EntityManagerInterface $em, $id){
+        $post = $questionRepository->find($id);
+
+        //dd($post);
+        $form = $this->createForm(QuestionFormType::class, $post);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            return $this->redirectToRoute('questions');
+        }
+
+        return $this->render('question/edit.html.twig', [
+            'questionForm' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/question/delete/{id}', name: 'delete_question', methods: ['GET'])]
+    public function delete_question(QuestionRepository $questionRepository, Question $question): Response
+    {
+        $questionRepository->remove($question, true);
+
+        return $this->redirectToRoute('questions');
+    }
+
+    #[Route('question/{id}', name:'question')]
+    public function question(questionRepository $questionRepository,$id): Response
+    {
+        $question = $questionRepository->find($id);
+        //dd($questions);
+        return $this->render('question/index.html.twig', [
+            'question' => $question,
+        ]);
     }
 
 }
