@@ -22,16 +22,18 @@ class Question
     #[ORM\JoinColumn(nullable: false)]
     private ?User $User = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Question')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Game $Game = null;
+
 
     #[ORM\OneToMany(mappedBy: 'Question', targetEntity: Answer::class)]
     private Collection $Answer_Id;
 
+    #[ORM\ManyToMany(targetEntity: Game::class, mappedBy: 'Question_id')]
+    private Collection $Games;
+
     public function __construct()
     {
         $this->Answer_Id = new ArrayCollection();
+        $this->Games = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -63,17 +65,7 @@ class Question
         return $this;
     }
 
-    public function getGame(): ?Game
-    {
-        return $this->Game;
-    }
 
-    public function setGame(?Game $Game): self
-    {
-        $this->Game = $Game;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Answer>
@@ -100,6 +92,33 @@ class Question
             if ($answerId->getQuestion() === $this) {
                 $answerId->setQuestion(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Game>
+     */
+    public function getGames(): Collection
+    {
+        return $this->Games;
+    }
+
+    public function addGame(Game $game): self
+    {
+        if (!$this->Games->contains($game)) {
+            $this->Games->add($game);
+            $game->addQuestionId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGame(Game $game): self
+    {
+        if ($this->Games->removeElement($game)) {
+            $game->removeQuestionId($this);
         }
 
         return $this;
