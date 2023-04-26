@@ -30,7 +30,7 @@ class QuestionController extends AbstractController
 
         $form = $this->createForm(QuestionFormType::class, $question);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             if ($this->getUser()) {
                 $question->setUser($this->getUser());

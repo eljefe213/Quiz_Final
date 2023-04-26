@@ -19,9 +19,10 @@ class Answer
     #[ORM\Column]
     private ?bool $Is_True = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Answer_Id')]
+    #[ORM\ManyToOne(inversedBy: 'Answer')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Question $Question = null;
+
 
     public function getId(): ?int
     {
@@ -63,4 +64,5 @@ class Answer
 
         return $this;
     }
+
 }

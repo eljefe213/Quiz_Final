@@ -24,16 +24,18 @@ class Question
 
 
 
-    #[ORM\OneToMany(mappedBy: 'Question', targetEntity: Answer::class)]
-    private Collection $Answer_Id;
 
     #[ORM\ManyToMany(targetEntity: Game::class, mappedBy: 'Question_id')]
     private Collection $Games;
 
+    #[ORM\OneToMany(mappedBy: 'Question', targetEntity: Answer::class)]
+    private Collection $Answer;
+
     public function __construct()
     {
-        $this->Answer_Id = new ArrayCollection();
+       
         $this->Games = new ArrayCollection();
+        $this->Answer = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,35 +69,7 @@ class Question
 
 
 
-    /**
-     * @return Collection<int, Answer>
-     */
-    public function getAnswerId(): Collection
-    {
-        return $this->Answer_Id;
-    }
 
-    public function addAnswerId(Answer $answerId): self
-    {
-        if (!$this->Answer_Id->contains($answerId)) {
-            $this->Answer_Id->add($answerId);
-            $answerId->setQuestion($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAnswerId(Answer $answerId): self
-    {
-        if ($this->Answer_Id->removeElement($answerId)) {
-            // set the owning side to null (unless already changed)
-            if ($answerId->getQuestion() === $this) {
-                $answerId->setQuestion(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Game>
@@ -119,6 +93,36 @@ class Question
     {
         if ($this->Games->removeElement($game)) {
             $game->removeQuestionId($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Answer>
+     */
+    public function getAnswer(): Collection
+    {
+        return $this->Answer;
+    }
+
+    public function addAnswer(Answer $answer): self
+    {
+        if (!$this->Answer->contains($answer)) {
+            $this->Answer->add($answer);
+            $answer->setQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnswer(Answer $answer): self
+    {
+        if ($this->Answer->removeElement($answer)) {
+            // set the owning side to null (unless already changed)
+            if ($answer->getQuestion() === $this) {
+                $answer->setQuestion(null);
+            }
         }
 
         return $this;

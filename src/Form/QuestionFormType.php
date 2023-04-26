@@ -15,9 +15,9 @@ class QuestionFormType extends AbstractType
     {
         $builder
             ->add('Question',TextType::class)
-            ->add('Answer_Id',AnswerFormType::class, [
-                "mapped" => true
-            ])
+            // ->add('Answer',AnswerFormType::class, [
+            //     "mapped" => true
+            // ])
             ->add('Ajouter', SubmitType::class)
         ;
     }
