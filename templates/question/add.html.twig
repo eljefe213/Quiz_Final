@@ -9,11 +9,8 @@
 </style>
 
 <div class="example-wrapper">
-    {% for question in questions %}
-    <div>
-        <p>Intitulé : </p>
-        <p>{{question.question}}</p>
-    </div>
-    {% endfor %}
+    <h1>Ajouter une question</h1>
+
+		{{ form(questionForm) }}
 </div>
 {% endblock %}

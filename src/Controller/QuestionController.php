@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Question;
 use App\Form\QuestionFormType;
+use App\Repository\QuestionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,11 +13,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class QuestionController extends AbstractController
 {
-    #[Route('/question', name: 'app_question')]
-    public function index(): Response
+    #[Route('/questions', name: 'questions')]
+    public function index(QuestionRepository $questionRepository): Response
     {
+        $questions = $questionRepository->findAll();
+
         return $this->render('question/index.html.twig', [
-            'controller_name' => 'QuestionController',
+            'questions' => $questions,
         ]);
     }
 
@@ -35,9 +38,9 @@ class QuestionController extends AbstractController
 
             $entityManager->persist($question);
             $entityManager->flush();
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('question');
         }
-        return $this->render('question/index.html.twig', [
+        return $this->render('question/add.html.twig', [
             'questionForm' => $form->createView(),
         ]);
 

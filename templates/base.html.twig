@@ -32,6 +32,9 @@
 					</li>
 				{% endif %}
 				{% if app.user %}
+                    <li>
+						<a href="{{path('questions')}}">Toutes les questions</a>
+					</li>
 					<li>
 						<a href="{{path('app_logout')}}">Logout</a>
 					</li>
