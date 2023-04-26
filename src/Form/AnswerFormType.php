@@ -18,7 +18,7 @@ class AnswerFormType extends AbstractType
             ->add('answer',TextType::class)
             ->add('is_true', CheckboxType::class, [
                 'label' => 'Is True?',
-                'required' => true,
+                'required' => false,
                 'value' => 'TRUE',
                 'empty_data' => 'FALSE',
             ])

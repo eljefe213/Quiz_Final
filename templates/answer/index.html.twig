@@ -9,6 +9,8 @@
     {% for answer in question.getAnswer %}
     <ul>
         <li>{{answer.answer}}</li>
+        <li><a href="{{path('delete_answer',{'id':answer.id})}}">Delete</a></li>
+        <li><a href="{{path('edit_answer',{'id':answer.id})}}">Edit</a></li>
     </ul>
     {% endfor %}
 

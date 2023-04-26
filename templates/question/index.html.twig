@@ -24,7 +24,10 @@
 				</p>
 				<p>{{question.question}}</p>
 				<p>
-					<a href="{{path('create_answer',{'id':question.id})}}">Ajouter une réponse</a>
+					<a href="{{path('create_answer',{'id':question.id})}}">Ajouter la bonne réponse</a>
+				</p>
+                <p>
+					<a href="{{path('create_false_answer',{'id':question.id})}}">Ajouter une mauvaise réponse</a>
 				</p>
                 {% include 'answer/index.html.twig' with {'question.id':question } %}
 			</div>
