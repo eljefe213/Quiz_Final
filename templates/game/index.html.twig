@@ -20,11 +20,13 @@
 	<div class="example-wrapper">
 		{% for question in game.getQuestionId %}
 			<p>{{ question.getQuestion }}</p>
-			{% for answer in question.getAnswer %}
-				<li>
-					<button class="answer-btn" data-id="{{ answer.isIsTrue }}">{{ answer.answer }}</button>
-				</li>
-			{% endfor %}
+			<ul>
+				{% for answer in question.getAnswer %}
+					<li>
+						<a href="{{path('game_question_response',{'id_game':game.id,'id_answer':answer.id})}}"><button class="answer-btn">{{ answer.answer }}</button></a>
+					</li>
+				{% endfor %}
+			</ul>
 		{% endfor %}
 	</div>
 
