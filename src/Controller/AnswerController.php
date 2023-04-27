@@ -42,6 +42,7 @@ class AnswerController extends AbstractController
             return $this->redirectToRoute('questions');
         }
         return $this->render('answer/add.html.twig', [
+            'question'=> $question,
             'answerForm' => $form->createView(),
         ]);
 
@@ -66,6 +67,7 @@ class AnswerController extends AbstractController
             return $this->redirectToRoute('questions');
         }
         return $this->render('answer/add.html.twig', [
+            'question'=> $question,
             'answerForm' => $form->createView(),
         ]);
     }

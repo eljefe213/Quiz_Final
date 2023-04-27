@@ -14,10 +14,9 @@ class QuestionFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Question',TextType::class)
-            // ->add('Answer',AnswerFormType::class, [
-            //     "mapped" => true
-            // ])
+            ->add('Question',TextType::class,[
+                'label' => 'Question : ',
+                ])
             ->add('Ajouter', SubmitType::class)
         ;
     }

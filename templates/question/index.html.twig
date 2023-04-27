@@ -18,22 +18,25 @@
 	</style>
 
 	<div class="example-wrapper">
+	<div>
+		<a href="{{path('create_question')}}"><button>Ajouter une question</button></a>
+	</div>
 		{% for question in questions %}
 			<div>
 				<p>Intitulé :
 				</p>
 				<p>{{question.question}}</p>
 				<p>
-					<a href="{{path('delete_question',{'id':question.id})}}">Delete</a>
+					<a href="{{path('edit_question',{'id':question.id})}}"><button>Edit</button></a>
 				</p>
 				<p>
-					<a href="{{path('edit_question',{'id':question.id})}}">Edit</a>
+					<a href="{{path('delete_question',{'id':question.id})}}"><button>Delete</button></a>
 				</p>
 				<p>
-					<a href="{{path('create_answer',{'id':question.id})}}">Ajouter la bonne réponse</a>
+					<a href="{{path('create_answer',{'id':question.id})}}"><button>Ajouter la bonne réponse</button></a>
 				</p>
 				<p>
-					<a href="{{path('create_false_answer',{'id':question.id})}}">Ajouter une mauvaise réponse</a>
+					<a href="{{path('create_false_answer',{'id':question.id})}}"><button>Ajouter une mauvaise réponse</button></a>
 				</p>
 				{% include 'answer/index.html.twig' with {'question.id':question } %}
 			</div>

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Create Question{% endblock %}
+{% block title %}Hello GameController!{% endblock %}
 
 {% block body %}
 <style>
@@ -9,9 +9,16 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Ajouter une réponse</h1>
-    <p>La question est : {{question.question}}</p>
-		{{ form(answerForm) }}
+    {% for question in questions %}
+        <p>{{question.question}}</p>
         
+        {% for answer in question.getAnswer %}
+			<ul>
+				<li><button>{{answer.answer}}</button></li>
+			</ul>
+		{% endfor %}
+    {% endfor %}
 </div>
 {% endblock %}
+
+
