@@ -23,6 +23,9 @@
 				<li>
 					<a href="{{path('app_home')}}">Home</a>
 				</li>
+				<li>
+					<a href="{{path('app_score')}}">Scores</a>
+				</li>
 				{% if not app.user %}
 					<li>
 						<a href="{{path('app_register')}}">Register</a>
@@ -32,12 +35,13 @@
 					</li>
 				{% endif %}
 				{% if app.user %}
-					{# {% if app.user.roles is same as('ROLE_ADMIN') %}
-											<li>
-												<a href="{{path('questions')}}">Toutes les questions</a>
-											</li>
-										{%  endif %} #}
-					{# <li>{{app.user.roles}}</li> #}
+
+					{% if is_granted('ROLE_ADMIN') %}
+						<li>
+							<a href="{{path('questions')}}">Toutes les questions</a>
+						</li>
+					{%  endif %}
+
 					<li>
 						<a href="{{path('app_logout')}}">Logout</a>
 					</li>
