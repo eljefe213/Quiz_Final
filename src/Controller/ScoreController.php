@@ -13,8 +13,7 @@ class ScoreController extends AbstractController
     public function index(ScoreManager $scoreManager): Response
     {
         $scores = $scoreManager->findAllScoresDESC();
-       
-
+        
         return $this->render('score/index.html.twig', [
             'scores' => $scores,
         ]);

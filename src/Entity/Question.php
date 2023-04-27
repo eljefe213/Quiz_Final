@@ -22,20 +22,16 @@ class Question
     #[ORM\JoinColumn(nullable: false)]
     private ?User $User = null;
 
-
-
-
-    #[ORM\ManyToMany(targetEntity: Game::class, mappedBy: 'Question_id')]
-    private Collection $Games;
-
     #[ORM\OneToMany(mappedBy: 'Question', targetEntity: Answer::class)]
     private Collection $Answer;
 
+    #[ORM\OneToMany(mappedBy: 'Question', targetEntity: GameQuestion::class)]
+    private Collection $gameQuestions;
+
     public function __construct()
     {
-       
-        $this->Games = new ArrayCollection();
         $this->Answer = new ArrayCollection();
+        $this->gameQuestions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,37 +63,6 @@ class Question
         return $this;
     }
 
-
-
-
-
-    /**
-     * @return Collection<int, Game>
-     */
-    public function getGames(): Collection
-    {
-        return $this->Games;
-    }
-
-    public function addGame(Game $game): self
-    {
-        if (!$this->Games->contains($game)) {
-            $this->Games->add($game);
-            $game->addQuestionId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeGame(Game $game): self
-    {
-        if ($this->Games->removeElement($game)) {
-            $game->removeQuestionId($this);
-        }
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Answer>
      */
@@ -122,6 +87,36 @@ class Question
             // set the owning side to null (unless already changed)
             if ($answer->getQuestion() === $this) {
                 $answer->setQuestion(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GameQuestion>
+     */
+    public function getGameQuestions(): Collection
+    {
+        return $this->gameQuestions;
+    }
+
+    public function addGameQuestion(GameQuestion $gameQuestion): self
+    {
+        if (!$this->gameQuestions->contains($gameQuestion)) {
+            $this->gameQuestions->add($gameQuestion);
+            $gameQuestion->setQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGameQuestion(GameQuestion $gameQuestion): self
+    {
+        if ($this->gameQuestions->removeElement($gameQuestion)) {
+            // set the owning side to null (unless already changed)
+            if ($gameQuestion->getQuestion() === $this) {
+                $gameQuestion->setQuestion(null);
             }
         }
 

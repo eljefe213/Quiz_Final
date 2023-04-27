@@ -22,15 +22,15 @@ class AnswerController extends AbstractController
         ]);
     }
 
-    #[Route ('/question/create/{id}/answer/create', name:'create_answer')]
-    public function create_answer(Request $request, EntityManagerInterface $entityManager,$id,QuestionRepository $questionRepository): Response 
+    #[Route('/question/create/{id}/answer/create', name: 'create_answer')]
+    public function create_answer(Request $request, EntityManagerInterface $entityManager, $id, QuestionRepository $questionRepository): Response
     {
         $question = $questionRepository->find($id);
         $answer = new Answer();
 
         $form = $this->createForm(AnswerFormType::class, $answer);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             if ($question) {
                 $answer->setQuestion($question);
@@ -42,20 +42,19 @@ class AnswerController extends AbstractController
             return $this->redirectToRoute('questions');
         }
         return $this->render('answer/add.html.twig', [
-            'question'=> $question,
+            'question' => $question,
             'answerForm' => $form->createView(),
         ]);
-
     }
-    #[Route ('/question/create/{id}/answer/create/false', name:'create_false_answer')]
-    public function create_false_answer(Request $request, EntityManagerInterface $entityManager,$id,QuestionRepository $questionRepository): Response 
+    #[Route('/question/create/{id}/answer/create/false', name: 'create_false_answer')]
+    public function create_false_answer(Request $request, EntityManagerInterface $entityManager, $id, QuestionRepository $questionRepository): Response
     {
         $question = $questionRepository->find($id);
         $answer = new Answer();
 
         $form = $this->createForm(AnswerFormType::class, $answer);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             if ($question) {
                 $answer->setQuestion($question);
@@ -67,13 +66,14 @@ class AnswerController extends AbstractController
             return $this->redirectToRoute('questions');
         }
         return $this->render('answer/add.html.twig', [
-            'question'=> $question,
+            'question' => $question,
             'answerForm' => $form->createView(),
         ]);
     }
 
-    #[Route('/answer/edit/{id}', name: 'edit_answer',  methods: ['GET','POST'])]
-    public function edit_answer (Request $request, AnswerRepository $answerRepository, EntityManagerInterface $em, $id){
+    #[Route('/answer/edit/{id}', name: 'edit_answer',  methods: ['GET', 'POST'])]
+    public function edit_answer(Request $request, AnswerRepository $answerRepository, EntityManagerInterface $em, $id)
+    {
         $post = $answerRepository->find($id);
 
         //dd($post);

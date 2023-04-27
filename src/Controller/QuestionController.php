@@ -23,14 +23,14 @@ class QuestionController extends AbstractController
         ]);
     }
 
-    #[Route ('/question/create', name:'create_question')]
-    public function create_question(Request $request, EntityManagerInterface $entityManager): Response 
+    #[Route('/question/create', name: 'create_question')]
+    public function create_question(Request $request, EntityManagerInterface $entityManager): Response
     {
         $question = new Question();
 
         $form = $this->createForm(QuestionFormType::class, $question);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             if ($this->getUser()) {
                 $question->setUser($this->getUser());
@@ -45,8 +45,9 @@ class QuestionController extends AbstractController
         ]);
     }
 
-    #[Route('/question/edit/{id}', name: 'edit_question',  methods: ['GET','POST'])]
-    public function edit_question (Request $request, QuestionRepository $questionRepository, EntityManagerInterface $em, $id){
+    #[Route('/question/edit/{id}', name: 'edit_question',  methods: ['GET', 'POST'])]
+    public function edit_question(Request $request, QuestionRepository $questionRepository, EntityManagerInterface $em, $id)
+    {
         $post = $questionRepository->find($id);
 
         //dd($post);
@@ -70,5 +71,4 @@ class QuestionController extends AbstractController
 
         return $this->redirectToRoute('questions');
     }
-
 }

@@ -23,15 +23,13 @@ class Game
     #[ORM\JoinColumn(nullable: false)]
     private ?Score $Score_id = null;
 
-    #[ORM\ManyToMany(targetEntity: Question::class, inversedBy: 'Games')]
-    private Collection $Question_id;
+    #[ORM\OneToMany(mappedBy: 'Game', targetEntity: GameQuestion::class)]
+    private Collection $gameQuestions;
 
     public function __construct()
     {
-        $this->Question_id = new ArrayCollection();
+        $this->gameQuestions = new ArrayCollection();
     }
-
-
 
     public function getId(): ?int
     {
@@ -63,27 +61,32 @@ class Game
     }
 
     /**
-     * @return Collection<int, Question>
+     * @return Collection<int, GameQuestion>
      */
-    public function getQuestionId(): Collection
+
+    public function getGameQuestions(): Collection
     {
-        return $this->Question_id;
+        return $this->gameQuestions;
     }
 
-    public function addQuestionId(Question $questionId): self
+    public function addGameQuestion(GameQuestion $gameQuestion): self
     {
-        if (!$this->Question_id->contains($questionId)) {
-            $this->Question_id->add($questionId);
+        if (!$this->gameQuestions->contains($gameQuestion)) {
+            $this->gameQuestions[] = $gameQuestion;
+            $gameQuestion->setGame($this);
         }
 
         return $this;
     }
 
-    public function removeQuestionId(Question $questionId): self
+    public function removeGameQuestion(GameQuestion $gameQuestion): self
     {
-        $this->Question_id->removeElement($questionId);
+        if ($this->gameQuestions->removeElement($gameQuestion)) {
+            if ($gameQuestion->getGame() === $this) {
+                $gameQuestion->setGame(null);
+            }
+        }
 
         return $this;
     }
-
 }

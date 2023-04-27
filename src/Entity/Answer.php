@@ -64,5 +64,4 @@ class Answer
 
         return $this;
     }
-
 }

@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use App\Entity\GameQuestion;
 use App\Entity\Score;
 use App\Repository\AnswerRepository;
+use App\Repository\GameQuestionRepository;
 use App\Repository\GameRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\ScoreRepository;
@@ -41,7 +43,12 @@ class GameController extends AbstractController
 
         // ajouter chaque question sélectionnée à l'objet Game
         foreach ($questions as $question) {
-            $game->addQuestionId($question);
+            $gameQuestion = new GameQuestion();
+            $gameQuestion->setGame($game);
+            $gameQuestion->setQuestion($question);
+            $gameQuestion->setIsResponse(false);
+
+            $entityManager->persist($gameQuestion);
         }
 
         // enregistrer l'objet Game en base de données
@@ -66,13 +73,13 @@ class GameController extends AbstractController
         ]);
     }
 
-    #[Route('/game/{id_game}/{id_answer}',name:'game_question_response')]
-    public function question_response($id_game, $id_answer,GameRepository $gameRepository, AnswerRepository $answerRepository, ScoreRepository $scoreRepository)
+    #[Route('/game/{id_game}/{id_answer}', name: 'game_question_response')]
+    public function question_response($id_game, $id_answer, GameRepository $gameRepository, AnswerRepository $answerRepository, ScoreRepository $scoreRepository, GameQuestionRepository $gameQuestionRepository)
     {
         $answer = $answerRepository->find($id_answer);
+        $game = $gameRepository->find($id_game);
 
         if ($answer->isIsTrue() === true) {
-            $game = $gameRepository->find($id_game);
             $score_id = $game->getScoreId();
             $score = $scoreRepository->find($score_id);
 
@@ -80,7 +87,17 @@ class GameController extends AbstractController
             $score->setScore($score_get + 1);
 
             $scoreRepository->save($score, true);
+        }
+        // Trouver la GameQuestion correspondant à la question et au jeu en cours
+        $gameQuestion = $answer->getQuestion()->getGameQuestions()->filter(function (GameQuestion $gameQuestion) use ($game) {
+            return $gameQuestion->getGame() === $game;
+        })->first();
 
+        // Mettre à jour la propriété isResponse de la GameQuestion
+        if ($gameQuestion) {
+            $gameQuestion->setIsResponse(true);
+
+            $gameQuestionRepository->save($gameQuestion, true);
         }
         //dd($question);
         return $this->redirectToRoute('app_game', ['id' => $id_game], Response::HTTP_SEE_OTHER);

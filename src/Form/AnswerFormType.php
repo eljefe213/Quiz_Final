@@ -15,17 +15,16 @@ class AnswerFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('answer',TextType::class, [
+            ->add('answer', TextType::class, [
                 'label' => 'Réponse : ',
-                ])
+            ])
             ->add('is_true', CheckboxType::class, [
                 'label' => 'Est-ce la bonne réponse ?',
                 'required' => false,
                 'value' => 'TRUE',
                 'empty_data' => 'FALSE',
             ])
-            ->add('Ajouter', SubmitType::class)
-        ;
+            ->add('Ajouter', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

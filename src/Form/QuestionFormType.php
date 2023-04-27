@@ -14,11 +14,10 @@ class QuestionFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Question',TextType::class,[
+            ->add('Question', TextType::class, [
                 'label' => 'Question : ',
-                ])
-            ->add('Ajouter', SubmitType::class)
-        ;
+            ])
+            ->add('Ajouter', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
