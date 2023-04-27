@@ -71,14 +71,4 @@ class QuestionController extends AbstractController
         return $this->redirectToRoute('questions');
     }
 
-    #[Route('question/{id}', name:'question')]
-    public function question(questionRepository $questionRepository,$id): Response
-    {
-        $question = $questionRepository->find($id);
-        //dd($questions);
-        return $this->render('question/index.html.twig', [
-            'question' => $question,
-        ]);
-    }
-
 }
