@@ -12,11 +12,11 @@
     {% for question in questions %}
         <p>{{question.question}}</p>
         
-        {% for answer in question.getAnswer %}
 			<ul>
+        {% for answer in question.getAnswer %}
 				<li><button>{{answer.answer}}</button></li>
-			</ul>
 		{% endfor %}
+			</ul>
     {% endfor %}
 </div>
 {% endblock %}
