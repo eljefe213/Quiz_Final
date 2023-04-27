@@ -2,17 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\Answer;
 use App\Entity\Game;
 use App\Entity\Score;
 use App\Repository\AnswerRepository;
 use App\Repository\GameRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\ScoreRepository;
-use App\Service\ScoreManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -60,7 +57,7 @@ class GameController extends AbstractController
     }
 
     #[Route('/game/{id}', name: 'app_game')]
-    public function index(QuestionRepository $questionRepository, $id, GameRepository $gameRepository, ScoreManager $scoreManager, Request $request, EntityManagerInterface $entityManager): Response
+    public function index(QuestionRepository $questionRepository, $id, GameRepository $gameRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $game = $gameRepository->find($id);
         //dd($game);

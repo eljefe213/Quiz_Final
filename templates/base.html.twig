@@ -32,9 +32,12 @@
 					</li>
 				{% endif %}
 				{% if app.user %}
-                    <li>
-						<a href="{{path('questions')}}">Toutes les questions</a>
-					</li>
+					{# {% if app.user.roles is same as('ROLE_ADMIN') %}
+											<li>
+												<a href="{{path('questions')}}">Toutes les questions</a>
+											</li>
+										{%  endif %} #}
+					{# <li>{{app.user.roles}}</li> #}
 					<li>
 						<a href="{{path('app_logout')}}">Logout</a>
 					</li>
